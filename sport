@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин спортивной обуви</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .product {
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px;
+            width: 200px;
+        }
+        button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        aside {
+            position: fixed;
+            right: 10px;
+            top: 10px;
+            width: 250px;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Магазин спортивной обуви</h1>
+        <select id="sort" onchange="sortProducts()">
+            <option value="default">Сортировать по</option>
+            <option value="priceAsc">Цена: по возрастанию</option>
+            <option value="priceDesc">Цена: по убыванию</option>
+        </select>
+    </header>
+    
+    <main>
+        <div id="products"></div>
+    </main>
+    
+    <aside>
+        <h2>Корзина</h2>
+        <ul id="cart"></ul>
+    </aside>
+
+    <script>
+        const products = [
+            { name: "Кроссовки Nike", price: 5000, image: "nike.jpg" },
+            { name: "Кроссовки Adidas", price: 4500, image: "adidas.jpg" },
+            { name: "Кроссовки Puma", price: 4000, image: "puma.jpg" }
+        ];
+
+        function displayProducts() {
+            const productContainer = document.getElementById("products");
+            productContainer.innerHTML = "";
+            products.forEach((product, index) => {
+                productContainer.innerHTML += `
+                    <div class="product">
+                        <img src="${product.image}" alt="${product.name}">
+                        <h2>${product.name}</h2>
+                        <p>Цена: ${product.price} руб.</p>
+                        <button onclick="addToCart(${index})">Добавить в корзину</button>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(index) {
+            const cart = document.getElementById("cart");
+            const item = document.createElement("li");
+            item.textContent = products[index].name + " - " + products[index].price + " руб.";
+            cart.appendChild(item);
+        }
+
+        function sortProducts() {
+            const sortType = document.getElementById("sort").value;
+            if (sortType === "priceAsc") {
+                products.sort((a, b) => a.price - b.price);
+            } else if (sortType === "priceDesc") {
+                products.sort((a, b) => b.price - a.price);
+            }
+            displayProducts();
+        }
+
+        window.onload = displayProducts;
+    </script>
+</body>
+</html>
